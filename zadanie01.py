@@ -4,7 +4,7 @@ f = open(sys.argv[1], "r")
 currentRow = 1
 
 
-def read(inp, currentRow):
+def read(inp, row):
     print(f"Zadajte hodnotu premennej {inp}:", end="")
     globals()[inp] = input()
 
