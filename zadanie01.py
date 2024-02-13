@@ -4,12 +4,19 @@ f = open(sys.argv[1], "r")
 
 
 def read(inp):
-    print("Zadajte hodnotu premennej " + inp + ":", end="")
+    print(f"Zadajte hodnotu premennej {inp}:", end="")
     globals()[inp] = input()
 
 
 def write(inp):
-    print("Obsah premennej " + inp + ":" + globals()[inp])
+    if globals()[inp] == "None":
+        print(f"Obsah premennej {inp}:")
+    else:
+        print(f"Obsah premennej {inp}: {globals()[inp]}")
+
+
+def error(row):
+    print(f"CHYBA NA RIADKU {str(row)}!!!")
 
 
 def plus(i, j, k):
@@ -20,6 +27,14 @@ interpreterDictionary = {
     "READ": read,
     "WRITE": write
 }
+
+
+def errorsDictionary(k):
+    return {
+        "non_existent_row": "Skok na neexistujuci riadok!",
+        "non_existent_variable": f"Premenna s nazvom {k} nebola definovana!",
+    }
+
 
 # Warning s strip tam potom odstranuje \n
 for line in f:
