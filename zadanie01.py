@@ -1,34 +1,33 @@
 import sys
 
 f = open(sys.argv[1], "r")
-print(f.read())
 
 
-def hello(name, surname):
-    print("Hello", name + "!" + surname)
+def read(inp):
+    print("Zadajte hodnotu premennej " + inp + ":", end="")
+    globals()[inp] = input()
 
-def read():
+
+def write(inp):
+    print("Obsah premennej " + inp + ":" + globals()[inp])
 
 
 interpreterDictionary = {
-    "hello": hello,
     "READ": read,
+    "WRITE": write
 }
 
-
-
-
-if readline:
-    commandLine = readline.split()
-    command = commandLine[0]
-    args = commandLine[1:]
-    if command in interpreterDictionary:
-        if len(args) == 1:
-            interpreterDictionary[command](args[0])
-        elif len(args) == 2:
-            interpreterDictionary[command](args[0], args[1])
-        elif len(args) == 3:
-            interpreterDictionary[command](args[0], args[1], args[2])
+# Warning s strip tam potom odstranuje \n
+for line in f:
+    line = line.strip().split(',')
+    function = line[0]
+    arguments = line[1:]
+    if function in interpreterDictionary:
+        if len(arguments) == 1:
+            interpreterDictionary[function](arguments[0])
+        elif len(arguments) == 2:
+            interpreterDictionary[function](arguments[0], arguments[1])
+        elif len(arguments) == 3:
+            interpreterDictionary[function](arguments[0], arguments[1], arguments[2])
         else:
-            interpreterDictionary[command]()
-
+            interpreterDictionary[function]()
