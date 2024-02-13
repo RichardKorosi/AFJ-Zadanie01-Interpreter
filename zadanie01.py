@@ -12,6 +12,10 @@ def write(inp):
     print("Obsah premennej " + inp + ":" + globals()[inp])
 
 
+def plus(i, j, k):
+    globals()[i] = int(globals()[j]) + int(globals()[k])
+
+
 interpreterDictionary = {
     "READ": read,
     "WRITE": write
