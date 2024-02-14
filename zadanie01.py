@@ -1,6 +1,7 @@
 import sys
 
 f = open(sys.argv[1], "r")
+f_a = [None] + f.readlines()
 currentRow = 1
 
 
@@ -92,18 +93,14 @@ def getValuesFromEitherVariableOrNumber(x, row):
     return x if x.isdigit() else globals()[x] if x in globals() else error(row, "non_existent_variable", x)
 
 
-def jumpToRow(i, row):
-    global currentRow
-    currentRow = int(i) - 1
+def jumpToRow(row):
+    return int(row)
 
 
-dictionaryIOfunctions = {
+dictionaryLogicFunctions = {
     "READ": read,
     "WRITE": write,
     "NOP": nop,
-}
-
-dictionaryMathFunctions = {
     "+": plus,
     "-": minus,
     "*": mul,
@@ -119,25 +116,26 @@ dictionaryJumpFunctions = {
     "JUMP": jumpToRow,
 }
 
-for line in f:
-    line = line.strip().split(',')
+while currentRow < len(f_a):
+    line = f_a[currentRow].strip().split(',')
     function = line[0]
     arguments = line[1:]
-    if function in dictionaryIOfunctions:
+    if function in dictionaryLogicFunctions:
         if len(arguments) == 1:
-            dictionaryIOfunctions[function](arguments[0], currentRow)
-        else:
-            dictionaryIOfunctions[function]()
-    elif function in dictionaryMathFunctions:
-        if len(arguments) == 3:
-            dictionaryMathFunctions[function](arguments[0], arguments[1], arguments[2], currentRow)
+            dictionaryLogicFunctions[function](arguments[0], currentRow)
         elif len(arguments) == 2:
-            dictionaryMathFunctions[function](arguments[0], arguments[1], currentRow)
+            dictionaryLogicFunctions[function](arguments[0], arguments[1], currentRow)
+        elif len(arguments) == 3:
+            dictionaryLogicFunctions[function](arguments[0], arguments[1], arguments[2], currentRow)
+        else:
+            dictionaryLogicFunctions[function]()
     elif function in dictionaryJumpFunctions:
         if len(arguments) == 1:
-            dictionaryJumpFunctions[function](arguments[0], currentRow)
+            currentRow = dictionaryJumpFunctions[function](arguments[0])
+            continue
         elif len(arguments) == 2:
-            dictionaryJumpFunctions[function](arguments[0], arguments[1], currentRow)
+            currentRow = dictionaryJumpFunctions[function](arguments[0], arguments[1])
+            continue
     else:
-        pass # ERROR NON EXISTENT FUNCTION
+        pass  # ERROR NON EXISTENT FUNCTION
     currentRow += 1

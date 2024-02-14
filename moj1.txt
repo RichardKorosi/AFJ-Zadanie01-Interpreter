@@ -2,4 +2,4 @@ READ,i
 WRITE,i
 +,i,i,k
 WRITE,k
-JUMP,2
+JUMP,1
