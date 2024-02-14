@@ -1,4 +1,6 @@
 READ,i
 WRITE,i
-+,i,4,k
++,i,999,k
+WRITE,k
+>=,i,999,k
 WRITE,k

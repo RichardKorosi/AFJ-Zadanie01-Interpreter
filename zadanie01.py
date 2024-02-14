@@ -4,6 +4,13 @@ f = open(sys.argv[1], "r")
 currentRow = 1
 
 
+def errorsDictionary(k):
+    return {
+        "non_existent_row": "Skok na neexistujuci riadok!",
+        "non_existent_variable": f"Premenna s nazvom {k} nebola definovana!",
+    }
+
+
 def read(inp, row):
     print(f"Zadajte hodnotu premennej {inp}:", end="")
     globals()[inp] = input()
@@ -17,50 +24,67 @@ def write(inp, row):
         print(f"Obsah premennej {inp}: {globals()[inp]}")
 
 
-def error(row, errorType, variable=None):
-    errorDictionary = errorsDictionary(variable)
-    print(f"CHYBA NA RIADKU {str(row)}!!!", end=" ")
-    print(errorDictionary[errorType])
-
-
 def plus(i, j, k, row):
-    globals()[k] = int(globals()[i]) + int(globals()[j])
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = int(i) + int(j)
 
 
 def minus(i, j, k, row):
-    globals()[k] = int(globals()[i]) - int(globals()[j])
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = int(i) - int(j)
 
 
 def mul(i, j, k, row):
-    globals()[k] = int(globals()[i]) * int(globals()[j])
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = int(i) * int(j)
 
 
 def isGreater(i, j, k, row):
-    globals()[k] = 1 if int(globals()[i]) > int(globals()[j]) else 0
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = 1 if int(i) > int(j) else 0
 
 
 def isLess(i, j, k, row):
-    globals()[k] = 1 if int(globals()[i]) < int(globals()[j]) else 0
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = 1 if int(i) < int(j) else 0
 
 
 def isGreaterOrEqual(i, j, k, row):
-    globals()[k] = 1 if int(globals()[i]) >= int(globals()[j]) else 0
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = 1 if int(i) >= int(j) else 0
 
 
 def isLessOrEqual(i, j, k, row):
-    globals()[k] = 1 if int(globals()[i]) <= int(globals()[j]) else 0
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = 1 if int(i) <= int(j) else 0
 
 
 def isEqual(i, j, k, row):
-    globals()[k] = 1 if int(globals()[i]) == int(globals()[j]) else 0
+    i = i if i.isdigit() else globals()[i]
+    j = j if j.isdigit() else globals()[j]
+    globals()[k] = 1 if int(i) == int(j) else 0
 
 
 def makeEqual(i, j, row):
-    globals()[i] = globals()[j]
+    j = j if j.isdigit() else globals()[j]
+    globals()[i] = int(j)
 
 
 def nop():
     pass
+
+
+def error(row, errorType, variable=None):
+    errorDictionary = errorsDictionary(variable)
+    print(f"CHYBA NA RIADKU {str(row)}!!!", end=" ")
+    print(errorDictionary[errorType])
 
 
 interpreterDictionary = {
@@ -77,14 +101,6 @@ interpreterDictionary = {
     "=": makeEqual,
     "NOP": nop
 }
-
-
-def errorsDictionary(k):
-    return {
-        "non_existent_row": "Skok na neexistujuci riadok!",
-        "non_existent_variable": f"Premenna s nazvom {k} nebola definovana!",
-    }
-
 
 for line in f:
     line = line.strip().split(',')
