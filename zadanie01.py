@@ -25,55 +25,55 @@ def write(inp, row):
 
 
 def plus(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = int(i) + int(j)
 
 
 def minus(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = int(i) - int(j)
 
 
 def mul(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = int(i) * int(j)
 
 
 def isGreater(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = 1 if int(i) > int(j) else 0
 
 
 def isLess(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = 1 if int(i) < int(j) else 0
 
 
 def isGreaterOrEqual(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = 1 if int(i) >= int(j) else 0
 
 
 def isLessOrEqual(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = 1 if int(i) <= int(j) else 0
 
 
 def isEqual(i, j, k, row):
-    i = i if i.isdigit() else globals()[i]
-    j = j if j.isdigit() else globals()[j]
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[k] = 1 if int(i) == int(j) else 0
 
 
 def makeEqual(i, j, row):
-    j = j if j.isdigit() else globals()[j]
+    j = getValuesFromEitherVariableOrNumber(j, row)
     globals()[i] = int(j)
 
 
@@ -85,6 +85,11 @@ def error(row, errorType, variable=None):
     errorDictionary = errorsDictionary(variable)
     print(f"CHYBA NA RIADKU {str(row)}!!!", end=" ")
     print(errorDictionary[errorType])
+    exit()
+
+
+def getValuesFromEitherVariableOrNumber(x, row):
+    return x if x.isdigit() else globals()[x] if x in globals() else error(row, "non_existent_variable", x)
 
 
 interpreterDictionary = {
