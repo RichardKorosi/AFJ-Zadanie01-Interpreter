@@ -1,0 +1,8 @@
+READ,i
+WRITE,i
+NOP
+READ,zero
+NOP
++,i,i,k
+WRITE,k
+JUMPF,zero,4

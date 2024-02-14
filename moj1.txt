@@ -1,5 +1,1 @@
-READ,i
-WRITE,i
-+,i,i,k
-WRITE,k
-JUMP,1
+JUMPT,3,1

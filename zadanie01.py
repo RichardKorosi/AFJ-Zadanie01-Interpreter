@@ -90,11 +90,28 @@ def error(row, errorType, variable=None):
 
 
 def getValuesFromEitherVariableOrNumber(x, row):
-    return x if x.isdigit() else globals()[x] if x in globals() else error(row, "non_existent_variable", x)
+    x_isLegitDigit = x.isdigit() or (x.startswith('-') and x[1:].isdigit())
+    return x if x_isLegitDigit else globals()[x] if x in globals() else error(row, "non_existent_variable", x)
 
 
-def jumpToRow(row):
-    return int(row)
+def jumpToRow(setRow):
+    if int(setRow) > len(f_a[1:]):
+        error(currentRow, "non_existent_row")
+    return int(setRow)
+
+
+def jumpIfTrue(i, setRow, row):
+    if int(setRow) > len(f_a[1:]):
+        error(currentRow, "non_existent_row")
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    return int(setRow) if int(i) != 0 else currentRow + 1
+
+
+def jumpIfFalse(i, setRow, row):
+    if int(setRow) > len(f_a[1:]):
+        error(currentRow, "non_existent_row")
+    i = getValuesFromEitherVariableOrNumber(i, row)
+    return int(setRow) if int(i) == 0 else currentRow + 1
 
 
 dictionaryLogicFunctions = {
@@ -114,6 +131,8 @@ dictionaryLogicFunctions = {
 
 dictionaryJumpFunctions = {
     "JUMP": jumpToRow,
+    "JUMPT": jumpIfTrue,
+    "JUMPF": jumpIfFalse,
 }
 
 while currentRow < len(f_a):
@@ -134,7 +153,7 @@ while currentRow < len(f_a):
             currentRow = dictionaryJumpFunctions[function](arguments[0])
             continue
         elif len(arguments) == 2:
-            currentRow = dictionaryJumpFunctions[function](arguments[0], arguments[1])
+            currentRow = dictionaryJumpFunctions[function](arguments[0], arguments[1], currentRow)
             continue
     else:
         pass  # ERROR NON EXISTENT FUNCTION
