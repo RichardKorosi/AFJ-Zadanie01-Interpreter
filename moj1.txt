@@ -1,6 +1,4 @@
 READ,i
 WRITE,i
-READ,j
-WRITE,j
-+,i,j,k
++,i,4,k
 WRITE,k

@@ -27,10 +27,55 @@ def plus(i, j, k, row):
     globals()[k] = int(globals()[i]) + int(globals()[j])
 
 
+def minus(i, j, k, row):
+    globals()[k] = int(globals()[i]) - int(globals()[j])
+
+
+def mul(i, j, k, row):
+    globals()[k] = int(globals()[i]) * int(globals()[j])
+
+
+def isGreater(i, j, k, row):
+    globals()[k] = 1 if int(globals()[i]) > int(globals()[j]) else 0
+
+
+def isLess(i, j, k, row):
+    globals()[k] = 1 if int(globals()[i]) < int(globals()[j]) else 0
+
+
+def isGreaterOrEqual(i, j, k, row):
+    globals()[k] = 1 if int(globals()[i]) >= int(globals()[j]) else 0
+
+
+def isLessOrEqual(i, j, k, row):
+    globals()[k] = 1 if int(globals()[i]) <= int(globals()[j]) else 0
+
+
+def isEqual(i, j, k, row):
+    globals()[k] = 1 if int(globals()[i]) == int(globals()[j]) else 0
+
+
+def makeEqual(i, j, row):
+    globals()[i] = globals()[j]
+
+
+def nop():
+    pass
+
+
 interpreterDictionary = {
     "READ": read,
     "WRITE": write,
     "+": plus,
+    "-": minus,
+    "*": mul,
+    ">": isGreater,
+    "<": isLess,
+    ">=": isGreaterOrEqual,
+    "<=": isLessOrEqual,
+    "==": isEqual,
+    "=": makeEqual,
+    "NOP": nop
 }
 
 
@@ -41,12 +86,10 @@ def errorsDictionary(k):
     }
 
 
-# Warning s strip tam potom odstranuje \n
 for line in f:
     line = line.strip().split(',')
     function = line[0]
     arguments = line[1:]
-    # print(line)
     if function in interpreterDictionary:
         if len(arguments) == 1:
             interpreterDictionary[function](arguments[0], currentRow)
