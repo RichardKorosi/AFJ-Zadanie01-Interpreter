@@ -92,9 +92,18 @@ def getValuesFromEitherVariableOrNumber(x, row):
     return x if x.isdigit() else globals()[x] if x in globals() else error(row, "non_existent_variable", x)
 
 
-interpreterDictionary = {
+def jumpToRow(i, row):
+    global currentRow
+    currentRow = int(i) - 1
+
+
+dictionaryIOfunctions = {
     "READ": read,
     "WRITE": write,
+    "NOP": nop,
+}
+
+dictionaryMathFunctions = {
     "+": plus,
     "-": minus,
     "*": mul,
@@ -104,20 +113,31 @@ interpreterDictionary = {
     "<=": isLessOrEqual,
     "==": isEqual,
     "=": makeEqual,
-    "NOP": nop
+}
+
+dictionaryJumpFunctions = {
+    "JUMP": jumpToRow,
 }
 
 for line in f:
     line = line.strip().split(',')
     function = line[0]
     arguments = line[1:]
-    if function in interpreterDictionary:
+    if function in dictionaryIOfunctions:
         if len(arguments) == 1:
-            interpreterDictionary[function](arguments[0], currentRow)
-        elif len(arguments) == 2:
-            interpreterDictionary[function](arguments[0], arguments[1], currentRow)
-        elif len(arguments) == 3:
-            interpreterDictionary[function](arguments[0], arguments[1], arguments[2], currentRow)
+            dictionaryIOfunctions[function](arguments[0], currentRow)
         else:
-            interpreterDictionary[function]()
+            dictionaryIOfunctions[function]()
+    elif function in dictionaryMathFunctions:
+        if len(arguments) == 3:
+            dictionaryMathFunctions[function](arguments[0], arguments[1], arguments[2], currentRow)
+        elif len(arguments) == 2:
+            dictionaryMathFunctions[function](arguments[0], arguments[1], currentRow)
+    elif function in dictionaryJumpFunctions:
+        if len(arguments) == 1:
+            dictionaryJumpFunctions[function](arguments[0], currentRow)
+        elif len(arguments) == 2:
+            dictionaryJumpFunctions[function](arguments[0], arguments[1], currentRow)
+    else:
+        pass # ERROR NON EXISTENT FUNCTION
     currentRow += 1

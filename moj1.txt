@@ -1,4 +1,5 @@
 READ,i
 WRITE,i
-+,1,1,k
++,i,i,k
 WRITE,k
+JUMP,2
