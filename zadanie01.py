@@ -86,7 +86,7 @@ def error(row, errorType, variable=None):
     errorDictionary = errorsDictionary(variable)
     print(f"CHYBA NA RIADKU {str(row)}!!!", end=" ")
     print(errorDictionary[errorType])
-    exit()
+    sys.exit()
 
 
 def getValuesFromEitherVariableOrNumber(x, row):
