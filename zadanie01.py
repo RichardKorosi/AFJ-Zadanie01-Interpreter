@@ -23,13 +23,14 @@ def error(row, errorType, variable=None):
     print(errorDictionary[errorType])
 
 
-def plus(i, j, k):
-    globals()[i] = int(globals()[j]) + int(globals()[k])
+def plus(i, j, k, row):
+    globals()[k] = int(globals()[i]) + int(globals()[j])
 
 
 interpreterDictionary = {
     "READ": read,
-    "WRITE": write
+    "WRITE": write,
+    "+": plus,
 }
 
 
@@ -45,6 +46,7 @@ for line in f:
     line = line.strip().split(',')
     function = line[0]
     arguments = line[1:]
+    # print(line)
     if function in interpreterDictionary:
         if len(arguments) == 1:
             interpreterDictionary[function](arguments[0], currentRow)
