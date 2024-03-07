@@ -1,5 +1,6 @@
 READ,i
 WRITE,i
+READ,j
 NOP
 READ,zero
 NOP
